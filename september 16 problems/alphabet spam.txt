@@ -1,0 +1,62 @@
+//https://open.kattis.com/problems/alphabetspam
+import java.util.Scanner;
+
+class Main {
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    String input = scan.nextLine();
+    
+    determineCharRatios(input);
+  }
+
+  private static void determineCharRatios(String input) {
+    int length = input.length();
+
+    int charCounts[] = {0, 0, 0, 0};
+    for(int i = 0; i < length; i++) {
+      int charTypeAtI = determineCharacterType(input.charAt(i));
+      if (charTypeAtI != -1) {
+        charCounts[charTypeAtI]++;
+      }
+    }
+
+    double output = 0.0;
+    for (int j = 0; j < 4; j++) {
+      output = (double) charCounts[j] / (double) length;
+      System.out.println(output);
+    }
+  }
+
+  //0 = whitespace, 1 = lowercase, 2 = uppercase, 3 = symbols
+  private static int determineCharacterType(char input) {
+    int output = -1; 
+
+    //_ aka whitespace is 95
+    if (input == 95) {
+      output = 0;
+    }
+    //97 --> 122 is lowercase
+    else if (input >= 97 && input <= 122) {
+      output = 1;
+    }
+    //65 --> 90 is uppercase
+    else if (input >= 65 && input <= 90) {
+      output = 2;
+    }
+    //symbols are 33 through 47, 58 --> 64, 91--> 94 and 96, 123 --> 126
+    else if (input >= 33 && input <= 64) {
+      output = 3;
+    }
+    else if (input >= 91 && input <= 94) {
+      output = 3;
+    }
+    else if (input == 96) {
+      output = 3;
+    }
+    else if (input >= 123 && input <= 126) {
+      output = 3;
+    }
+
+    return output;
+  }
+}
